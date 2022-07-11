@@ -2,23 +2,36 @@ package jg.apps.newsapi
 
 
 
+import android.annotation.SuppressLint
+import android.app.DirectAction
+import android.app.Notification
 import android.content.pm.PackageManager
+import android.graphics.Path
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Layout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
-import jg.apps.newsapi.databinding.FragmentMainBinding
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.R
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
+import jg.apps.newsapi.databinding.FragmentLocationBinding
+import jg.apps.newsapi.LocationFragment as NewsapiLocationFragment
 
 
-class MainFragment : Fragment() {
+class LocationFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
-    private lateinit var binding: FragmentMainBinding
+    private lateinit var binding: FragmentLocationBinding
 
 
     override fun onCreateView(
@@ -26,12 +39,13 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = FragmentLocationBinding.inflate(inflater, container, false)
 
         initUI()
         return binding.root
     }
 
+    @SuppressLint("ResourceType")
     private fun initUI() {
 
         activity?.let {
@@ -40,6 +54,8 @@ class MainFragment : Fragment() {
                 binding.button.setOnClickListener {
 
                     if (isLocationPermissionGranted()){
+                        findNavController().navigate(jg.apps.newsapi.R.id.action_locationFragment_to_newsFragment)
+
                         Toast.makeText(requireContext(),"Permisos concedidos",Toast.LENGTH_SHORT).show()
                     }else{
                         binding.button.isInvisible = true
