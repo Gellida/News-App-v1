@@ -1,8 +1,12 @@
-package jg.apps.newsapi
+package jg.apps.newsapi.ui
 
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import jg.apps.newsapi.api.Article
+import jg.apps.newsapi.api.NewsApiResponse
+import jg.apps.newsapi.api.NewsApiService
+import jg.apps.newsapi.util.Constants.Companion.BASE_URL
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainViewModel : ViewModel() {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://newsapi.org/")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -44,6 +48,7 @@ class MainViewModel : ViewModel() {
         })
 
     }
+
     fun getSecondNews() {
         val call = service.getSecondNewsList()
 

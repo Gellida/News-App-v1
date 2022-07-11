@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/locationFragment">
+
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="jg.apps.newsapi.ui.fragments.LocationFragment"
+        android:label="LocationFragment"
+        tools:layout="@layout/fragment_location">
+        <action
+            android:id="@+id/action_locationFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="jg.apps.newsapi.ui.fragments.NewsFragment"
+        android:label="NewsFragment"
+        tools:layout="@layout/fragment_new" >
+        <action
+            android:id="@+id/action_newsFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_newsFragment_to_secondNewsFragment"
+            app:destination="@id/secondNewsFragment" />
+        <action
+            android:id="@+id/action_newsFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="jg.apps.newsapi.ui.fragments.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article" >
+
+        <argument android:name="url"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_articleFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+        <action
+            android:id="@+id/action_articleFragment_to_secondNewsFragment"
+            app:destination="@id/secondNewsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondNewsFragment"
+        android:name="jg.apps.newsapi.ui.fragments.SecondNewsFragment"
+        android:label="secondNewsFragment"
+        tools:layout="@layout/fragment_secondnews">
+        <action
+            android:id="@+id/action_secondNewsFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+        <action
+            android:id="@+id/action_secondNewsFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
 
 </navigation>

@@ -1,32 +1,23 @@
-package jg.apps.newsapi
-
+package jg.apps.newsapi.ui.fragments
 
 
 import android.annotation.SuppressLint
-import android.app.DirectAction
-import android.app.Notification
 import android.content.pm.PackageManager
-import android.graphics.Path
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Layout
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
+import jg.apps.newsapi.R
 import jg.apps.newsapi.databinding.FragmentLocationBinding
-import jg.apps.newsapi.LocationFragment as NewsapiLocationFragment
+import jg.apps.newsapi.ui.MainViewModel
+import okhttp3.internal.wait
 
 
 class LocationFragment : Fragment() {
@@ -51,45 +42,57 @@ class LocationFragment : Fragment() {
         activity?.let {
 
             viewModel.let {
+
                 binding.button.setOnClickListener {
 
-                    if (isLocationPermissionGranted()){
-                        findNavController().navigate(jg.apps.newsapi.R.id.action_locationFragment_to_newsFragment)
+                    if (isLocationPermissionGranted()) {
+                        findNavController().navigate(R.id.action_locationFragment_to_newsFragment)
+                        Toast.makeText(requireContext(), "Permisos concedidos", Toast.LENGTH_SHORT)
+                            .show()
 
-                        Toast.makeText(requireContext(),"Permisos concedidos",Toast.LENGTH_SHORT).show()
-                    }else{
-                        binding.button.isInvisible = true
-                        binding.tvPermissionDenied.isInvisible = false
+                    } else {
+
                         requestLocationPermission()
+                        Thread.sleep(3000)
+                        if (isLocationPermissionGranted()) {
+                            findNavController().navigate(R.id.action_locationFragment_to_newsFragment)
+                        } else {
+                            binding.button.isInvisible = true
+                            binding.tvPermissionDenied.isInvisible = false
+                        }
+
+
                     }
-
-
 
                 }
             }
-
-
         }
 
+
     }
+
     private fun isLocationPermissionGranted() = ContextCompat.checkSelfPermission(
         requireContext(),
         android.Manifest.permission.ACCESS_COARSE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED
 
-    private fun requestLocationPermission(){
+    private fun requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
-                android.Manifest.permission.ACCESS_COARSE_LOCATION)
-        ){
-               Toast.makeText(requireContext(),"Tendrás que aceptar los permisos",Toast.LENGTH_SHORT).show()
-        }else{
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        ) {
+            Toast.makeText(requireContext(), "Tendrás que aceptar los permisos", Toast.LENGTH_SHORT)
+                .show()
+        } else {
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION),
-               0)
+                0
+            )
         }
 
     }
+
 
 }
