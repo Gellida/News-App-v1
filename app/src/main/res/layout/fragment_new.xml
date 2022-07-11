@@ -30,15 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="69dp"
-        android:layout_height="34dp"
-        android:text="btn2"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerNews"
         android:layout_width="match_parent"
